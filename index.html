@@ -1,126 +1,76 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="script.js"></script>
+</head>
 <body style="margin-left:1em">
 
-<h2>Dead Cells Random Route Generator</h2>
+<h2>Dead Cells 2.2 Random Route Generator</h2>
 
 <input type="checkbox" id="prisonOpt" name="prisonOpt" value="prisonOpt" checked>
 <label for="prisonOpt">Ensure Prison Depths/Corrupted Prison is in the route</label>
 <br>
+
 <input type="checkbox" id="classOpt" name="classOpt" value="classOpt">
 <label for="classOpt">Also give me a random class</label>
 <br>
+
 <input type="checkbox" id="tubeOpt" name="tubeOpt" value="tubeOpt">
 <label for="tubeOpt">Also give me a random recycling tube</label>
 <br>
+
 <input type="checkbox" id="BSOpt" name="BSOpt" value="BSOpt" checked>
 <label for="BSOpt">Enable Bad Seed</label>
 <br>
+
 <input type="checkbox" id="FFOpt" name="FFOpt" value="FFOpt" checked>
 <label for="FFOpt">Enable Fatal Falls</label>
 <br><br>
+
+<label for="BC">BC:</label>
+<select id="BC" name="BC">
+    <option value=0>0</option>
+    <option value=1>1</option>
+    <option value=2>2</option>
+    <option value=3 selected>3+</option>
+</select> 
+<br>
+
+<label for="forcedBiome">Ensure this biome is in the route:</label>
+<select id="forcedBiome" name="forcedBiome">
+    <option value="" selected                 >None                      </option>
+    <option value="Promenade of the Condemned">Promenade of the Condemned</option>
+    <option value="Toxic Sewers"              >Toxic Sewers              </option>
+    <option value="Dilapidated Arboretum"     >Dilapidated Arboretum     </option>
+    <option value="Prison Depths"             >Prison Depths             </option>
+    <option value="Corrupted Prison"          >Corrupted Prison          </option>
+    <option value="Ramparts"                  >Ramparts                  </option>
+    <option value="Ancient Sewers"            >Ancient Sewers            </option>
+    <option value="Ossuary"                   >Ossuary                   </option>
+    <option value="Morass of the Banished"    >Morass of the Banished    </option>
+    <option value="Black Bridge"              >Black Bridge              </option>
+    <option value="Insufferable Crypt"        >Insufferable Crypt        </option>
+    <option value="The Nest"                  >The Nest                  </option>
+    <option value="Stilt Village"             >Stilt Village             </option>
+    <option value="Slumbering Sanctuary"      >Slumbering Sanctuary      </option>
+    <option value="Graveyard"                 >Graveyard                 </option>
+    <option value="Fractured Shrines"         >Fractured Shrines         </option>
+    <option value="Clock Tower"               >Clock Tower               </option>
+    <option value="Forgotten Sepulcher"       >Forgotten Sepulcher       </option>
+    <option value="Cavern"                    >Cavern                    </option>
+    <option value="Undying Shores"            >Undying Shores            </option>
+    <option value="Clock Room"                >Clock Room                </option>
+    <option value="Guardian's Haven"          >Guardian's Haven          </option>
+    <option value="Mausoleum"                 >Mausoleum                 </option>
+    <option value="High Peak Castle"          >High Peak Castle          </option>
+    <option value="Derelect Distillery"       >Derelect Distillery       </option>
+</select> 
+<br><br>
+
 <button type="button" onclick="printRoute()">Get Random Route</button>
 <br><br>
 
 <p id="route"></p>
-
-<script>
-  function Biome(name, children) {
-    this.name = name;
-    this.children = children;
-  }
-
-  var Thro_Room, Dere_Dist, High_Peak, 
-      Maus, Guar_Have, Cloc_Room, 
-      Undy_Shor, Cave, Forg_Sepu, Cloc_Towe,
-      Frac_Shri, Grav, Slum_Sanc, Stil_Vill,
-      Nest, Insu_Cryp, Blac_Brid,
-      Mora_Bani, Ossu, Anci_Sewe, Ramp,
-      Corr_Pris, Pris_Dept, 
-      Dila_Arbo, Toxi_Sewe, Prom_Cond, Pris_Quar;
-
-  function initBiomes() {
-    Thro_Room = new Biome("Throne Room",                []);
-    Dere_Dist = new Biome("Derelect Distillery",        [Thro_Room]);
-    High_Peak = new Biome("High Peak Castle",           [Thro_Room]);
-    Maus      = new Biome("Mausoleum",                  [High_Peak, Dere_Dist]);
-    Guar_Have = new Biome("Guardian's Haven",           [High_Peak, Dere_Dist, Thro_Room]);
-    Cloc_Room = new Biome("Clock Room",                 [High_Peak, Dere_Dist]);
-    Undy_Shor = new Biome("Undying Shores",             [Maus]);
-    Cave      = new Biome("Cavern",                     [Guar_Have, Maus]);
-    Forg_Sepu = new Biome("Forgotten Sepulcher",        [Cloc_Room, Guar_Have]);
-    Cloc_Towe = new Biome("Clock Tower",                [Cloc_Room]);
-    Frac_Shri = new Biome("Fractured Shrines",          [Undy_Shor, Cloc_Towe, Forg_Sepu]);
-    Grav      = new Biome("Graveyard",                  [Forg_Sepu, Cave, Undy_Shor]);
-    Slum_Sanc = new Biome("Slumbering Sanctuary",       [Cloc_Towe, Forg_Sepu, Cave]);
-    Stil_Vill = new Biome("Stilt Village",              [Cloc_Towe, Undy_Shor, Forg_Sepu]);
-    Nest      = new Biome("The Nest",                   [Stil_Vill, Frac_Shri, Grav]);
-    Insu_Cryp = new Biome("Insufferable Crypt",         [Slum_Sanc, Grav]);
-    Blac_Brid = new Biome("Black Bridge",               [Stil_Vill, Frac_Shri, Slum_Sanc]);
-    Mora_Bani = new Biome("Morass of the Banished",     [Nest]);
-    Ossu      = new Biome("Ossuary",                    [Blac_Brid]);
-    Anci_Sewe = new Biome("Ancient Sewers",             [Insu_Cryp]);
-    Ramp      = new Biome("Ramparts",                   [Blac_Brid, Insu_Cryp]);
-    Corr_Pris = new Biome("Corrupted Prison",           [Anci_Sewe, Ramp]);
-    Pris_Dept = new Biome("Prison Depths",              [Ossu, Mora_Bani, Anci_Sewe]);
-    Dila_Arbo = new Biome("Dilapidated Arboretum",      [Pris_Dept, Mora_Bani, Ramp]);
-    Toxi_Sewe = new Biome("Toxic Sewers",               [Corr_Pris, Ramp, Anci_Sewe]);
-    Prom_Cond = new Biome("Promenade of the Condemned", [Pris_Dept, Ossu, Ramp, Mora_Bani]);
-    Pris_Quar = new Biome("Prisoner's Quarters",        [Dila_Arbo, Prom_Cond, Toxi_Sewe]);
-  }
-
-  function choice(array) {
-    return array[Math.floor(Math.random() * array.length)]
-  }
-
-  function getRoute(biome) {
-    if (biome.children.length == 0)
-      return biome.name;
-    else
-      return biome.name + "<br>" + getRoute(choice(biome.children));
-  }
-
-  function printRoute() {
-    var prisonOpt = document.getElementById("prisonOpt").checked;
-    var classOpt  = document.getElementById("classOpt" ).checked;
-    var tubeOpt   = document.getElementById("tubeOpt"  ).checked;
-    var BSOpt     = document.getElementById("BSOpt"    ).checked;
-    var FFOpt     = document.getElementById("FFOpt"    ).checked;
-
-    initBiomes();
-    
-    if (prisonOpt) {
-      Prom_Cond.children = [Pris_Dept];
-      Dila_Arbo.children = [Pris_Dept];
-      Toxi_Sewe.children = [Corr_Pris];
-    }
-    if (!BSOpt) {
-      Pris_Quar.children = [Prom_Cond, Toxi_Sewe]
-      if (!prisonOpt)
-        Prom_Cond.children = [Pris_Dept, Ossu, Ramp]
-      Pris_Dept.children = [Ossu, Anci_Sewe]
-    }
-    if (!FFOpt) {
-
-    }
-
-    var routeString = "";
-    if (classOpt) {
-      routeString += ("<b>Class:</b><br>" + 
-                      choice(["Brutality", "Tactics", "Survival"]) + 
-                      "<br><br>");
-    }
-    if (tubeOpt) {
-      routeString += ("<b>Recycling Tube:</b><br>" + 
-                      choice([1, 2, 3, 4]) + 
-                      "<br><br>");
-    }
-  
-    routeString += ("<b>Route:</b><br>" + getRoute(Pris_Quar));
-    document.getElementById("route").innerHTML = routeString;
-
-  }
-  </script>
 
 </body>
 </html>

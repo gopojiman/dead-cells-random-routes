@@ -1,2 +1,2 @@
 # dead-cells-random-routes
-## test
+A random route generator for the game Dead Cells
