@@ -57,21 +57,16 @@ function getRoute(biome) {
 }
 
 function printRoute() {
-    var prisonOpt   = document.getElementById("prisonOpt"  ).checked;
     var classOpt    = document.getElementById("classOpt"   ).checked;
     var tubeOpt     = document.getElementById("tubeOpt"    ).checked;
     var BSOpt       = document.getElementById("BSOpt"      ).checked;
     var FFOpt       = document.getElementById("FFOpt"      ).checked;
     var BC          = document.getElementById("BC"         ).value;
+    var prisonOpt   = document.getElementById("prisonOpt"  ).value;
     var forcedBiome = document.getElementById("forcedBiome").value;
     
     initBiomes();
     
-    if (prisonOpt) {
-        Prom_Cond.remove_children([Ossu, Ramp, Mora_Bani]);
-        Dila_Arbo.remove_children([Mora_Bani, Ramp]);
-        Toxi_Sewe.remove_children([Ramp, Anci_Sewe]);
-    }
     if (!BSOpt) {
         Pris_Quar.remove_children([Dila_Arbo]);
         Prom_Cond.remove_children([Mora_Bani]);
@@ -84,6 +79,7 @@ function printRoute() {
         Stil_Vill.remove_children([Undy_Shor]);
         Cave     .remove_children([Maus]);
     }
+
     if (BC < 3) {
         Ramp    .remove_children([Insu_Cryp]);
     }
@@ -94,6 +90,17 @@ function printRoute() {
     if (BC < 1) {
         Pris_Dept.remove_children([Anci_Sewe]);
         Corr_Pris.remove_children([Ramp]);
+    }
+
+    if (prisonOpt === "Guaranteed") {
+        Prom_Cond.remove_children([Ossu, Ramp, Mora_Bani]);
+        Dila_Arbo.remove_children([Mora_Bani, Ramp]);
+        Toxi_Sewe.remove_children([Ramp, Anci_Sewe]);
+    }
+    else if (prisonOpt === "Excluded") {
+        Prom_Cond.remove_children([Pris_Dept]);
+        Dila_Arbo.remove_children([Pris_Dept]);
+        Toxi_Sewe.remove_children([Corr_Pris]);
     }
     
     var routeString = "";
