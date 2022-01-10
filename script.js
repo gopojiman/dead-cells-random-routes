@@ -65,6 +65,7 @@ function printRoute() {
     var tubeOpt     = document.getElementById("tubeOpt"    ).checked;
     var BSOpt       = document.getElementById("BSOpt"      ).checked;
     var FFOpt       = document.getElementById("FFOpt"      ).checked;
+    var QSOpt       = document.getElementById("QSOpt"      ).checked;
     var BC          = document.getElementById("BC"         ).value;
     var prisonOpt   = document.getElementById("prisonOpt"  ).value;
     var forcedBiome = document.getElementById("forcedBiome").value;
@@ -83,7 +84,12 @@ function printRoute() {
         Stil_Vill.remove_children([Undy_Shor]);
         Cave     .remove_children([Maus]);
     }
-
+    if (!QSOpt) {
+        Maus     .remove_children([Infe_Ship]);
+        Guar_Have.remove_children([Infe_Ship]);
+        Cloc_Room.remove_children([Infe_Ship]);
+        Dere_Dist.remove_children([Ligh]);
+    }
     if (BC < 3) {
         Ramp    .remove_children([Insu_Cryp]);
     }
