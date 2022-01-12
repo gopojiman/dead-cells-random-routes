@@ -6,7 +6,8 @@ function Biome(name, children) {
     }
 }
 
-var Thro_Room, Dere_Dist, High_Peak, 
+var Infe_Ship, Ligh     , The_Crow ,
+    Thro_Room, Dere_Dist, High_Peak, 
     Maus     , Guar_Have, Cloc_Room, 
     Undy_Shor, Cave     , Forg_Sepu, Cloc_Towe,
     Frac_Shri, Grav     , Slum_Sanc, Stil_Vill,
@@ -16,12 +17,15 @@ var Thro_Room, Dere_Dist, High_Peak,
     Dila_Arbo, Toxi_Sewe, Prom_Cond, Pris_Quar;
 
 function initBiomes() {
+    The_Crow  = new Biome("The Crown",                  []);
     Thro_Room = new Biome("Throne Room",                []);
-    Dere_Dist = new Biome("Derelect Distillery",        [Thro_Room]);
+    Ligh      = new Biome("Lighthouse",                 [The_Crow]);
+    Infe_Ship = new Biome("Infested Shipwreck",         [Ligh]);
+    Dere_Dist = new Biome("Derelect Distillery",        [Thro_Room, Ligh]);
     High_Peak = new Biome("High Peak Castle",           [Thro_Room]);
-    Maus      = new Biome("Mausoleum",                  [High_Peak, Dere_Dist]);
-    Guar_Have = new Biome("Guardian's Haven",           [High_Peak, Dere_Dist, Thro_Room]);
-    Cloc_Room = new Biome("Clock Room",                 [High_Peak, Dere_Dist]);
+    Maus      = new Biome("Mausoleum",                  [High_Peak, Dere_Dist, Infe_Ship]);
+    Guar_Have = new Biome("Guardian's Haven",           [High_Peak, Dere_Dist, Thro_Room, Infe_Ship]);
+    Cloc_Room = new Biome("Clock Room",                 [High_Peak, Dere_Dist, Infe_Ship]);
     Undy_Shor = new Biome("Undying Shores",             [Maus]);
     Cave      = new Biome("Cavern",                     [Guar_Have, Maus]);
     Forg_Sepu = new Biome("Forgotten Sepulcher",        [Cloc_Room, Guar_Have]);
@@ -61,6 +65,7 @@ function printRoute() {
     var tubeOpt     = document.getElementById("tubeOpt"    ).checked;
     var BSOpt       = document.getElementById("BSOpt"      ).checked;
     var FFOpt       = document.getElementById("FFOpt"      ).checked;
+    var QSOpt       = document.getElementById("QSOpt"      ).checked;
     var BC          = document.getElementById("BC"         ).value;
     var prisonOpt   = document.getElementById("prisonOpt"  ).value;
     var forcedBiome = document.getElementById("forcedBiome").value;
@@ -79,7 +84,12 @@ function printRoute() {
         Stil_Vill.remove_children([Undy_Shor]);
         Cave     .remove_children([Maus]);
     }
-
+    if (!QSOpt) {
+        Maus     .remove_children([Infe_Ship]);
+        Guar_Have.remove_children([Infe_Ship]);
+        Cloc_Room.remove_children([Infe_Ship]);
+        Dere_Dist.remove_children([Ligh]);
+    }
     if (BC < 3) {
         Ramp    .remove_children([Insu_Cryp]);
     }
